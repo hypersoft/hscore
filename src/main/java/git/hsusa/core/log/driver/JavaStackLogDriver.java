@@ -43,4 +43,5 @@ public class JavaStackLogDriver extends SmartLogDriver {
     enableSupportFeature(SmartLogDriver.SERVICE_ONLINE);
     return logItems = new Stack<>();
   }
+
 }

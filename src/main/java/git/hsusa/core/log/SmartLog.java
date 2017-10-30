@@ -24,6 +24,7 @@ public class SmartLog {
   public static SmartLogContext getContextFor(Class<?> oMasterClass)
     {return getContextFor(oMasterClass.getName());}
 
+  // Get/Create a logging context by object class name
   public static SmartLogContext getContextFrom(Object oObject) {
     return getContextFor(oObject.getClass());
   }
