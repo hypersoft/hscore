@@ -93,8 +93,14 @@ public class AndroidLogDriver extends SmartLogDriver {
 
       String line = "";
       while ((line = bufferedReader.readLine()) != null) {
-        if (logCatDate.parse(line).getTime() > oLogTime) input.push(line);
+        if (logCatDate.parse(line).getTime() > oLogTime) {
+          input.push(line);
+          break; // stop checking for date matching
+        }
       }
+
+      // continue collecting
+      while ((line = bufferedReader.readLine()) != null) input.push(line);
 
       return input;
 
