@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 public class HTTP {
 
     /** Carriage return/line feed. */
-    public static final String CRLF = "\r\n";
+    public static final String CRLF = "\r" + "\n";
 
     /**
      * Convert an HTTP header string into a JSONObject. It can be a request
