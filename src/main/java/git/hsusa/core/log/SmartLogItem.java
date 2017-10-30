@@ -1,4 +1,4 @@
-package git.hsusa.core.io.log;
+package git.hsusa.core.log;
 
 import java.util.Date;
 

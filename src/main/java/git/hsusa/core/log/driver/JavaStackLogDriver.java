@@ -1,9 +1,9 @@
-package git.hsusa.core.io.log.driver;
+package git.hsusa.core.log.driver;
 
 import java.util.Stack;
 
-import git.hsusa.core.io.log.SmartLogContext;
-import git.hsusa.core.io.log.SmartLogItem;
+import git.hsusa.core.log.SmartLogContext;
+import git.hsusa.core.log.SmartLogItem;
 
 /**
  * Created by triston on 10/28/17.

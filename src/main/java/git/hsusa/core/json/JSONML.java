@@ -1,4 +1,4 @@
-package git.hsusa.core.io.json;
+package git.hsusa.core.json;
 
 import java.util.Map.Entry;
 

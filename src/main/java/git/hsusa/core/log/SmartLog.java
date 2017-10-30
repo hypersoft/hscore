@@ -1,7 +1,7 @@
-package git.hsusa.core.io.log;
+package git.hsusa.core.log;
 
-import git.hsusa.core.io.log.driver.AndroidLogDriver;
-import git.hsusa.core.io.log.driver.SmartLogDriver;
+import git.hsusa.core.log.driver.AndroidLogDriver;
+import git.hsusa.core.log.driver.SmartLogDriver;
 
 /**
  * Created by triston on 10/27/17.

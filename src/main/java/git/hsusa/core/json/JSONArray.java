@@ -1,4 +1,4 @@
-package git.hsusa.core.io.json;
+package git.hsusa.core.json;
 
 /*
  Copyright (c) 2002 JSON.org

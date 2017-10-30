@@ -1,4 +1,4 @@
-package git.hsusa.core.io.json;
+package git.hsusa.core.json;
 
 /**
  * Created by triston on 10/27/17.

@@ -1,11 +1,11 @@
-package git.hsusa.core.io.log;
+package git.hsusa.core.log;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.Stack;
 
-import git.hsusa.core.io.log.SmartLogItem.MessageType;
-import git.hsusa.core.io.log.driver.SmartLogDriver;
+import git.hsusa.core.log.SmartLogItem.MessageType;
+import git.hsusa.core.log.driver.SmartLogDriver;
 
 /**
  * Created by triston on 10/29/17.

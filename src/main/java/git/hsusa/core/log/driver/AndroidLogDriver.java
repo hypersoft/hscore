@@ -1,4 +1,4 @@
-package git.hsusa.core.io.log.driver;
+package git.hsusa.core.log.driver;
 
 import android.util.Log;
 
@@ -11,9 +11,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
-import git.hsusa.core.io.log.SmartLogContext;
-import git.hsusa.core.io.log.SmartLogItem;
-import git.hsusa.core.io.log.SmartLogItem.MessageType;
+import git.hsusa.core.log.SmartLogContext;
+import git.hsusa.core.log.SmartLogItem;
+import git.hsusa.core.log.SmartLogItem.MessageType;
 
 /**
  * Created by triston on 10/28/17.
