@@ -58,27 +58,27 @@ public class SmartLogContext {
   }
 
   public SmartLogItem logCriticalMessage(String byName, String message) {
-    return new SmartLogItem(this, byName, MessageType.CRITICAL, message, null).write();
+    return new SmartLogItem(this, byName, MessageType.CRITICAL, message, null);
   }
 
   public SmartLogItem logCriticalMessage(String byName, String message, Exception failure) {
-    return new SmartLogItem(this, byName, MessageType.CRITICAL, message, failure).write();
+    return new SmartLogItem(this, byName, MessageType.CRITICAL, message, failure);
   }
 
   public SmartLogItem logWarningMessage(String byName, String message) {
-    return new SmartLogItem(this, byName, MessageType.WARNING, message, null).write();
+    return new SmartLogItem(this, byName, MessageType.WARNING, message, null);
   }
 
   public SmartLogItem logWarningMessage(String byName, String message, Exception failure) {
-    return new SmartLogItem(this, byName, MessageType.WARNING, message, failure).write();
+    return new SmartLogItem(this, byName, MessageType.WARNING, message, failure);
   }
 
   public SmartLogItem logExaminationMessage(String byName, String message) {
-    return new SmartLogItem(this, byName, MessageType.EXAMINATION, message, null).write();
+    return new SmartLogItem(this, byName, MessageType.EXAMINATION, message, null);
   }
 
   public SmartLogItem logExaminationMessage(String byName, String message, Exception failure) {
-    return new SmartLogItem(this, byName, MessageType.EXAMINATION, message, failure).write();
+    return new SmartLogItem(this, byName, MessageType.EXAMINATION, message, failure);
   }
 
   /*
@@ -108,6 +108,14 @@ public class SmartLogContext {
   public void importTag(String rawTag) {
     if ((boolean)getFactoryDriverSupport(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS)) selectSmartTag(rawTag);
     else throw new IllegalAccessError("log driver: " + getFactoryDriverName() + " does not accept raw tag imports");
+  }
+
+  public void importTags(Collection<String> tags) {
+    if ((boolean) getFactoryDriverSupport(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS))
+      for (String rawTag: tags) {
+        selectSmartTag(rawTag);
+    } else
+      throw new IllegalAccessError("log driver: " + getFactoryDriverName() + " does not accept raw tag imports");
   }
 
   String getSmartTagFor(SmartLogItem oSmartLogItem) {
