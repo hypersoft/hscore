@@ -126,7 +126,8 @@ public class Plugin implements IPlugin, JSONString {
     else throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
   }
 
-  final public boolean checkSetting(String name, Object value) {
+  // override this to perform your plugin-specific-logic
+  public boolean checkSetting(String name, Object value) {
     return settings.has(name) && getSetting(name).equals(value);
   }
 
@@ -144,12 +145,12 @@ public class Plugin implements IPlugin, JSONString {
     return true;
   }
 
-  @Override
-  final public String toJSONString() {
+  @Override /* override this to perform custom property serialization. @return string */
+  public String toJSONString() {
     return settings.toString();
   }
 
-  final public String toJSONString(int depth) {
+  public String toJSONString(int depth) {
     return settings.toString(depth);
   }
 

@@ -27,7 +27,7 @@ public class AndroidLogDriver extends SmartLogDriver {
 
   public AndroidLogDriver() {
 
-    setBooleanStatus(IMPORTS_FOREIGN_SMART_TAGS);
+    setBooleanStatus(IMPORTS_FOREIGN_SMART_TAGS, true);
 
     dataWriter = new DataWriter<SmartLogContext, Boolean, SmartLogItem>() {
 
