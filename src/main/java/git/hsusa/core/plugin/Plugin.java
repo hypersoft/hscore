@@ -176,7 +176,7 @@ public class Plugin implements IPlugin, JSONString {
   }
 
   @Override /* override this to perform custom property serialization. @return string */
-  final public String toJSONString() {return toJSONString(0);}
+  public String toJSONString() {return toJSONString(0);}
 
   final public String toJSONString(int depth)
   {
