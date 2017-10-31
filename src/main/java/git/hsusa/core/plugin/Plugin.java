@@ -139,13 +139,6 @@ public class Plugin implements IPlugin, JSONString {
     return settings.get(name);
   }
 
-  final public void setBooleanStatus(String name, boolean value) {
-    if (!settingIsKnown(name)) return;
-    if (!knownSettingIsWritable(name)) return;
-    if (knownSettingIsTypeOf(name, Boolean.TYPE)) putSetting(name, value);
-    else throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
-  }
-
   protected boolean settingIsProtected(String name) {
     if (settingIsKnown(name)) return false;
     return settings.has(name);
