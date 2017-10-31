@@ -2,6 +2,7 @@ package git.hsusa.core.plugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -29,8 +30,7 @@ import static java.lang.Class.forName;
     boolean configuration. if the setting is not WRITEABLE == TRUE, then external put is filtered for
     the setting.
 
-    private settings currently are; but should not be; exported in the serialization.
-
+    private settings are not exported in the standard serialization.
 
     Roll your own interface. "I"-plugin-everything..
 
@@ -172,12 +172,19 @@ public class Plugin implements IPlugin, JSONString {
   }
 
   @Override /* override this to perform custom property serialization. @return string */
-  public String toJSONString() {
-    return settings.toString();
-  }
+  public String toJSONString() {return toJSONString(0);}
 
-  public String toJSONString(int depth) {
-    return settings.toString(depth);
+  public String toJSONString(int depth)
+  {
+    Set<String> names = getSettingNames();
+    JSONObject out = new JSONObject(names.size());
+    for (String item: names) {
+      try {
+        out.putOnce(item, settings.opt(item));
+      } catch (Exception ignore) {
+      }
+    }
+    return out.toString(depth);
   }
 
 }
