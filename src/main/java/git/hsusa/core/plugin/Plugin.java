@@ -167,9 +167,9 @@ public class Plugin implements IPlugin, JSONString {
     return true;
   }
 
-  /* call this if you feel like new beginnnings are in your favor */
+  /* call this if you feel like new beginnings are in your favor */
   /* you might want to override this, so you can catch any configuration modification corner cases */
-  protected void resetPlugin(){
+  protected void pluginReset(){
     settings = new JSONObject();
     knownSettings.clear();
     writableSettings.clear();
@@ -188,6 +188,16 @@ public class Plugin implements IPlugin, JSONString {
         try {
           out.putOnce(item, ((IPluginSerializationFilter)this).onPluginSerialize(item));
         } catch (Exception ignore) {
+          logger.info(
+
+            IPluginSerializationFilter.class.getName()
+
+              +": plugin serialization failure in "+getPluginName()
+              +": "+item+"; reason: "+ignore.getClass().getName()
+              +"; message: "+ignore.getMessage()
+
+          );
+          //ignore.printStackTrace();
         }
       }
     }
@@ -195,8 +205,7 @@ public class Plugin implements IPlugin, JSONString {
     else for (String item : names) {
       try {
         out.putOnce(item, settings.opt(item));
-      } catch (Exception ignore) {
-      }
+      } catch (Exception ignore) {}
     }
 
     return out.toString(depth);
