@@ -121,9 +121,9 @@ public class Plugin implements IPlugin, JSONString {
       IPluginSettingsController.class.cast(this).onPutSetting(name, value);
       return;
     }
-    boolean knownKey = knownSettings.containsKey(name);
-    if (knownKey && ! writableSettings.get(name)) return;
-    if (knownKey && ! knownSettings.get(name).equals(value.getClass())) {
+    boolean knownKey = settingIsKnown(name);
+    if (knownKey && ! knownSettingIsWritable(name)) return;
+    if (knownKey && ! knownSettingIsTypeOf(name, value.getClass())) {
       throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
     }
     if (!knownKey) return;
@@ -136,15 +136,33 @@ public class Plugin implements IPlugin, JSONString {
       if (data == null) return JSONObject.NULL;
       return data;
     }
-    if (!knownSettings.containsKey(name)) return JSONObject.NULL;
+    if (!settingIsKnown(name)) return JSONObject.NULL;
     return settings.get(name);
   }
 
   final public void setBooleanStatus(String name, boolean value) {
-    if (!knownSettings.containsKey(name)) return;
-    if (!writableSettings.get(name)) return;
-    if (knownSettings.get(name).equals(Boolean.TYPE)) putSetting(name, value);
+    if (!settingIsKnown(name)) return;
+    if (!knownSettingIsWritable(name)) return;
+    if (knownSettingIsTypeOf(name, Boolean.TYPE)) putSetting(name, value);
     else throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
+  }
+
+  protected boolean settingIsProtected(String name) {
+    if (settingIsKnown(name)) return false;
+    return settings.has(name);
+  }
+
+  protected boolean settingIsKnown(String name) {
+    return knownSettings.containsKey(name);
+  }
+
+  protected boolean knownSettingIsWritable(String name) {
+    return writableSettings.get(name);
+  }
+
+  protected  boolean knownSettingIsTypeOf(String name, Object value) {
+    if (value == null) return false;
+    return knownSettings.get(name).equals(value.getClass());
   }
 
   // override this to perform your plugin-specific-logic
