@@ -7,6 +7,4 @@ public interface IPlugin {
   String getPluginName();
 
   Object getPluginLoader();
-
-  String toString();
 }

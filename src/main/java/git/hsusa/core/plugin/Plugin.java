@@ -90,11 +90,6 @@ public class Plugin implements IPlugin, JSONString {
   final public Object getPluginLoader(){return pluginLoader;}
 
   @Override
-  final public String toString() {
-    return getPluginName();
-  }
-
-  @Override
   final public String getPluginName() {
     return getClass().getName();
   }
