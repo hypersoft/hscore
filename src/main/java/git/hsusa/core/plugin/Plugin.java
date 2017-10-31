@@ -2,7 +2,6 @@ package git.hsusa.core.plugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -49,13 +48,8 @@ public class Plugin implements IPlugin, JSONString {
 
   protected Plugin() {}
 
-  public static Object create(Class<? extends Plugin> plugin) {
-    return create(plugin, null, null);
-  }
-
-  public static Object create(String className) {
-    return create(className, null, null);
-  }
+  public static Object create(Class<? extends Plugin> plugin) {return create(plugin, null, null);}
+  public static Object create(String className) {return create(className, null, null);}
 
   public static Object create(String className, Object loader, Object bundle) {
     Class<? extends Plugin> plugin = null;
@@ -112,9 +106,7 @@ public class Plugin implements IPlugin, JSONString {
 
   }
 
-  public Set<String> getSettingNames() {
-    return knownSettings.keySet();
-  }
+  public Set<String> getSettingNames() {return knownSettings.keySet();}
 
   @Override
   final public Object getPluginLoader(){return pluginLoader;}
@@ -190,12 +182,23 @@ public class Plugin implements IPlugin, JSONString {
   {
     Set<String> names = getSettingNames();
     JSONObject out = new JSONObject(names.size());
-    for (String item: names) {
+
+    if (this instanceof IPluginSerializationFilter) {
+      for (String item : names) {
+        try {
+          out.putOnce(item, ((IPluginSerializationFilter)this).onPluginSerialize(item));
+        } catch (Exception ignore) {
+        }
+      }
+    }
+
+    else for (String item : names) {
       try {
         out.putOnce(item, settings.opt(item));
       } catch (Exception ignore) {
       }
     }
+
     return out.toString(depth);
   }
 
