@@ -25,9 +25,9 @@ import static java.lang.Class.forName;
 
     There is also a secure property sharing implementation, with simple set-it-and-go-configuration.
     You can keep your variables private by using the settings object directly. However, if you
-    call createSetting(NAME, VALUE, WRITEABLE), that setting will be registered in the known value
+    call createSetting(NAME, VALUE, WRITABLE), that setting will be registered in the known value
     types registry, which will enable external access and type checking through get/put setting or
-    boolean configuration. if the setting is not WRITEABLE == TRUE, then external put is filtered for
+    boolean configuration. if the setting is not WRITABLE == TRUE, then external put is filtered for
     the setting.
 
     private settings are not exported in the standard serialization.
@@ -86,6 +86,18 @@ public class Plugin implements IPlugin, JSONString {
       if (pluginInstance instanceof IPluginLoadable)
         IPluginLoadable.class.cast(pluginInstance)
           .onLoad(pluginInstance.pluginLoader = loader, bundle);
+        // load the plugin
+      else if (pluginInstance instanceof IPluginLoadableVoid)
+        IPluginLoadableVoid.class.cast(pluginInstance)
+          .onLoad();
+        // load the plugin
+      else if (pluginInstance instanceof IPluginLoadableBundle)
+        IPluginLoadableBundle.class.cast(pluginInstance)
+          .onLoad(bundle);
+        // load the plugin
+      else if (pluginInstance instanceof IPluginLoadableAny)
+        IPluginLoadableAny.class.cast(pluginInstance)
+          .onLoad(bundle);
 
       // notify the loader with any forwarding
       if (loader instanceof IPluginLoader) {
