@@ -139,6 +139,16 @@ public class Plugin implements IPlugin, JSONString {
     return settings.get(name);
   }
 
+  protected void protectSetting(String name) {
+    knownSettings.remove(name);
+    writableSettings.remove(name);
+  }
+
+  protected void publishSetting(String name, Class value, boolean writable) {
+    knownSettings.put(name, value);
+    writableSettings.put(name, writable);
+  }
+
   protected boolean settingIsProtected(String name) {
     if (settingIsKnown(name)) return false;
     return settings.has(name);
@@ -170,9 +180,7 @@ public class Plugin implements IPlugin, JSONString {
   *
   *
   * */final protected boolean createSetting(String name, Object value, boolean writable) {
-    if (knownSettings.containsKey(name)) settings.remove(name);
-    knownSettings.put(name, value.getClass());
-    writableSettings.put(name, writable);
+    publishSetting(name, value.getClass(), writable);
     settings.put(name, value);
     return true;
   }
