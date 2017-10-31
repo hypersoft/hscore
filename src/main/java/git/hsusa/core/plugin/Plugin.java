@@ -117,14 +117,14 @@ public class Plugin implements IPlugin, JSONString {
   }
 
   final public void putSetting(String name, Object value) {
+    if (this instanceof IPluginSettingsController) {
+      IPluginSettingsController.class.cast(this).onPutSetting(name, value);
+      return;
+    }
     boolean knownKey = knownSettings.containsKey(name);
     if (knownKey && ! writableSettings.get(name)) return;
     if (knownKey && ! knownSettings.get(name).equals(value.getClass())) {
       throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
-    }
-    if (this instanceof IPluginSettingsController) {
-      IPluginSettingsController.class.cast(this).onPutSetting(name, value);
-      return;
     }
     if (!knownKey) return;
     settings.put(name, value);
