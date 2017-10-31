@@ -43,7 +43,15 @@ public class Plugin implements IPlugin, JSONString {
 
   protected Plugin() {}
 
-  public static Object create(String className, Object loader, Object bundle) {
+  public static Object create(Class<? extends Plugin> plugin) {
+    return create(plugin, null, null);
+  }
+
+  public static Object create(String className) {
+    return create(className, null, null);
+  }
+
+    public static Object create(String className, Object loader, Object bundle) {
     Class<? extends Plugin> plugin = null;
     try {
       plugin = (Class<? extends Plugin>)forName(className);

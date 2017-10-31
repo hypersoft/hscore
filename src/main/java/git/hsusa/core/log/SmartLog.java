@@ -14,7 +14,7 @@ public class SmartLog {
   // change this to your default behavior
   static final SmartLogDriver platformDriver = new AndroidLogDriver();
 
-  //static final SmartLogDriver platformDriver = (SmartLogDriver)Plugin.create(JavaStackLogDriver.class, null, null);
+  //static final SmartLogDriver platformDriver = (SmartLogDriver)Plugin.create(JavaStackLogDriver.class);
 
   static java.util.HashMap<String, SmartLogContext> contextHashMap = new java.util.HashMap<>();
 
