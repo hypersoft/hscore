@@ -3,6 +3,7 @@ package git.hsusa.core.plugin;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import git.hsusa.core.json.JSONObject;
@@ -41,8 +42,8 @@ public class Plugin implements IPlugin, JSONString {
 
   private Object pluginLoader = null;
   // internal settings
-  private HashMap<String, Class> knownSettings = new HashMap<>();
-  private HashMap<String, Boolean> writableSettings = new HashMap<>();
+  protected HashMap<String, Class> knownSettings = new HashMap<>();
+  protected HashMap<String, Boolean> writableSettings = new HashMap<>();
   // plugin-settings
   protected JSONObject settings = new JSONObject();
 
@@ -97,6 +98,10 @@ public class Plugin implements IPlugin, JSONString {
 
     return pluginInstance;
 
+  }
+
+  public Set<String> getSettingNames() {
+    return knownSettings.keySet();
   }
 
   @Override
