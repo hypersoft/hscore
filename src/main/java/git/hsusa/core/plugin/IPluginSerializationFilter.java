@@ -7,9 +7,9 @@ import git.hsusa.core.json.JSONObject;
  */
 
 public interface IPluginSerializationFilter {
-  /*
-  * @return raw composed objects
-  *
-  * */
+  /**
+  * @param name the name of the setting to compose
+  * @return An object which is the value, or null if there is no value.
+  **/
   Object onPluginSerialize(String name);
 }
