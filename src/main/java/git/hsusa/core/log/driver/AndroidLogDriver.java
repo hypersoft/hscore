@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import git.hsusa.core.log.SmartLogContext;
 import git.hsusa.core.log.SmartLogItem;
@@ -106,6 +107,7 @@ public class AndroidLogDriver extends SmartLogDriver {
       return input;
 
     } catch (Exception e) {
+      e.printStackTrace();
       return null;
     }
   }

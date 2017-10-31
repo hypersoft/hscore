@@ -64,7 +64,6 @@ public class Plugin implements IPlugin, JSONString {
   public static Object create(Class<? extends Plugin> plugin, Object loader, Object bundle) {
 
     Plugin pluginInstance = null;
-
     if (plugin.getEnclosingClass() != null && ! Modifier.isStatic(plugin.getModifiers())) {
       logger.severe(plugin.getName() + " is a nested class and must be declared static to resolve it's own-plugin-constructor");
     }
@@ -75,11 +74,12 @@ public class Plugin implements IPlugin, JSONString {
       Constructor build = plugin.getDeclaredConstructor();
       build.setAccessible(true);
       pluginInstance = (Plugin) build.newInstance();
+      pluginInstance.pluginLoader = loader;
 
       // load the plugin
       if (pluginInstance instanceof IPluginLoadable)
         IPluginLoadable.class.cast(pluginInstance)
-          .onLoad(pluginInstance.pluginLoader = loader, bundle);
+          .onLoad(loader, bundle);
         // load the plugin
       else if (pluginInstance instanceof IPluginLoadableVoid)
         IPluginLoadableVoid.class.cast(pluginInstance)
