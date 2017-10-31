@@ -125,6 +125,7 @@ public class Plugin implements IPlugin, JSONString {
 
   final public void setBooleanStatus(String name, boolean value) {
     if (!knownSettings.containsKey(name)) return;
+    if (!writableSettings.get(name)) return;
     if (knownSettings.get(name).equals(Boolean.TYPE)) putSetting(name, value);
     else throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
   }
@@ -147,6 +148,14 @@ public class Plugin implements IPlugin, JSONString {
     writableSettings.put(name, writable);
     settings.put(name, value);
     return true;
+  }
+
+  /* call this if you feel like new beginnnings are in your favor */
+  /* you might want to override this, so you can catch any configuration modification corner cases */
+  protected void resetPlugin(){
+    settings = new JSONObject();
+    knownSettings.clear();
+    writableSettings.clear();
   }
 
   @Override /* override this to perform custom property serialization. @return string */
