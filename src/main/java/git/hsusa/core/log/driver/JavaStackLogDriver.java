@@ -16,7 +16,7 @@ public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoader<
 
   JavaStackLogDriver() {
 
-    enableSetting(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION);
+    setBooleanStatus(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION);
 
     dataReader = new DataReader<SmartLogContext, Object>() {
       @Override
