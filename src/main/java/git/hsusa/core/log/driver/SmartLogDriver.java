@@ -28,15 +28,15 @@ public abstract class SmartLogDriver extends IODriver<SmartLogContext, Boolean, 
 
   @Override
   public Boolean writeData(SmartLogContext runtime, SmartLogItem output) {
-    lastWriteTime = new Date().getTime();
     Boolean status = dataWriter.writeData(runtime, output);
+    lastWriteTime = new Date().getTime();
     return status;
   }
 
   @Override
   public Object readData(SmartLogContext runtime) {
-    lastReadTime = new Date().getTime();
     Object value = dataReader.readData(runtime);
+    lastReadTime = new Date().getTime();
     return value;
   }
 
