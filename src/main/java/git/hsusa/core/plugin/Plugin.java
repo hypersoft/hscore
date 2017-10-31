@@ -17,7 +17,8 @@ import static java.lang.Class.forName;
 /*
     A bare-bones-extensible-plugin-system.
 
-    Features: Plugins and Plugin loaders with startup "bundles" and object forwarding
+    Features: Plugins and Plugin loaders with startup "bundles" and object forwarding,
+    serializable settings, scriptable command interface, property access controller
 
  */
 
