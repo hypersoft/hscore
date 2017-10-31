@@ -152,11 +152,11 @@ public class Plugin implements IPlugin, JSONString {
     return settings.has(name) && getSetting(name).equals(value);
   }
 
-  /* use this function to setup your IPC
+  /* use this function to setup your IPC if you don't have a settings-controller-interface.
   *
   *  after you create a setting with this method, the get/set setting calls on the public
   *  interface using the name supplied here will be forwarded
-  *  to the settings object, if you don't have a settings controller interface.
+  *  to the settings object.
   *
   *
   * */final protected boolean createSetting(String name, Object value, boolean writable) {
