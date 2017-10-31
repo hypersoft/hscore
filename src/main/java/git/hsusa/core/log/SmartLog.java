@@ -1,7 +1,9 @@
 package git.hsusa.core.log;
 
 import git.hsusa.core.log.driver.AndroidLogDriver;
+import git.hsusa.core.log.driver.JavaStackLogDriver;
 import git.hsusa.core.log.driver.SmartLogDriver;
+import git.hsusa.core.plugin.Plugin;
 
 /**
  * Created by triston on 10/27/17.
@@ -11,6 +13,8 @@ public class SmartLog {
 
   // change this to your default behavior
   static final SmartLogDriver platformDriver = new AndroidLogDriver();
+
+  //static final SmartLogDriver platformDriver = (SmartLogDriver)Plugin.create(JavaStackLogDriver.class, null, null);
 
   static java.util.HashMap<String, SmartLogContext> contextHashMap = new java.util.HashMap<>();
 

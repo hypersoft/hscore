@@ -25,7 +25,7 @@ import static java.lang.Class.forName;
     You can keep your variables private by using the settings object directly. However, if you
     call createSetting(NAME, VALUE, WRITEABLE), that setting will be registered in the known value
     types registry, which will enable external access and type checking through get/put setting or
-    boolean configuration. if the settings is not WRITEABLE, then external put is filtered for
+    boolean configuration. if the setting is not WRITEABLE == TRUE, then external put is filtered for
     the setting.
 
     private settings currently are; but should not be; exported in the serialization.
@@ -58,7 +58,7 @@ public class Plugin implements IPlugin, JSONString {
     Plugin pluginInstance = null;
 
     if (plugin.getEnclosingClass() != null && ! Modifier.isStatic(plugin.getModifiers())) {
-      logger.severe(plugin.getName() + " is a nested class and must be declared static to resolve its constructor");
+      logger.severe(plugin.getName() + " is a nested class and must be declared static to resolve it's own-plugin-constructor");
     }
 
     try {
