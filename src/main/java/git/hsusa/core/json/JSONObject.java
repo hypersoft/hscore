@@ -371,7 +371,7 @@ public class JSONObject {
         ResourceBundle bundle = ResourceBundle.getBundle(baseName, locale,
                 Thread.currentThread().getContextClassLoader());
 
-// Iterate through the keys in the bundle.
+// Iterate through the keys in the pluginBundle.
 
         Enumeration<String> keys = bundle.getKeys();
         while (keys.hasMoreElements()) {
@@ -1588,6 +1588,22 @@ public class JSONObject {
     }
 
     /**
+     * Put a key/value pair in the JSONObject, where the value will be a
+     * JSONObject which is produced from an Extended Map.
+     *
+     * @param key
+     *            A key string.
+     * @param value
+     *            A Map value.
+     * @return this.
+     * @throws JSONException
+     */
+    public JSONObject put(String key, Class<? extends HashMap<?, ?>> value) throws JSONException {
+        this.put(key, new JSONObject(value));
+        return this;
+    }
+
+    /**
      * Put a key/value pair in the JSONObject. If the value is null, then the
      * key will be removed from the JSONObject if it is present.
      *
@@ -2122,6 +2138,8 @@ public class JSONObject {
         if (value == null || value.equals(null)) {
             return "null";
         }
+        //if (value instanceof JSONDeflatable)
+          //  return valueToString(JSONDeflatable.class.cast(value).onJsonDeflate());
         if (value instanceof JSONString) {
             Object object;
             try {
@@ -2187,7 +2205,6 @@ public class JSONObject {
             if (object == null) {
                 return NULL;
             }
-            if (object instanceof  JSONBubble) return wrap(JSONBubble.class.cast(object).forJSONBubble());
             if (object instanceof JSONObject || object instanceof JSONArray
                     || NULL.equals(object) || object instanceof JSONString
                     || object instanceof Byte || object instanceof Character

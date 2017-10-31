@@ -4,18 +4,19 @@ import java.util.Stack;
 
 import git.hsusa.core.log.SmartLogContext;
 import git.hsusa.core.log.SmartLogItem;
+import git.hsusa.core.plugin.IPluginLoader;
 
 /**
  * Created by triston on 10/28/17.
  */
 
-public class JavaStackLogDriver extends SmartLogDriver {
+public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoader<SmartLogContext> {
 
   private Stack<SmartLogItem> logItems;
 
   JavaStackLogDriver() {
 
-    enableSupportFeature(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION);
+    enableSetting(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION);
 
     dataReader = new DataReader<SmartLogContext, Object>() {
       @Override
@@ -39,9 +40,9 @@ public class JavaStackLogDriver extends SmartLogDriver {
   }
 
   @Override
-  public Object onPluginActivate(SmartLogContext oSmartLogContext) {
-    enableSupportFeature(SmartLogDriver.SERVICE_ONLINE);
-    return logItems = new Stack<>();
-  }
+  public void onLoadPlugin(SmartLogContext loadable) {
+    putSetting(SmartLogDriver.SERVICE_ONLINE, true);
+    logItems = new Stack<>();
 
+  }
 }

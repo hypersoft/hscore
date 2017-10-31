@@ -88,14 +88,26 @@ public class Plugin implements IPlugin, JSONString {
 
   final public void putSetting(String name, Object value) {
     if (this instanceof IPluginSettingsController)
-      IPluginSettingsController.class.cast(this).onPutSetting(settings, name, value);
+      IPluginSettingsController.class.cast(this).onPutSetting(name, value);
     else settings.put(name, value);
   }
 
   final public Object getSetting(String name) {
     if (this instanceof IPluginSettingsController)
-      return IPluginSettingsController.class.cast(this).onGetSetting(settings, name);
+      return IPluginSettingsController.class.cast(this).onGetSetting(name);
     else return settings.get(name);
+  }
+
+  final public void enableSetting(String name) {
+    putSetting(name, true);
+  }
+
+  final public void disableSetting(String name) {
+    putSetting(name, false);
+  }
+
+  final public boolean checkSetting(String name, Object value) {
+    return settings.has(name) && getSetting(name).equals(value);
   }
 
   @Override

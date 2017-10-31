@@ -37,20 +37,12 @@ public class SmartLogContext {
   public boolean setFactoryDriver(SmartLogDriver oFactoryDriver) {
     if (smartTags.size() > 1) throw
       new IllegalAccessError("cannot set factory driver after context logging has commenced");
-    if (factoryDriver.getSupportStatus(SmartLogDriver.SERVICE_ONLINE)) throw
-      new IllegalArgumentException("cannot set factory driver after driver activation has commenced");
     factoryDriver = oFactoryDriver;
-    if (factoryDriver.getSupportStatus(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION))
-      factoryDriver.onPluginActivate(this);
     return true;
   }
 
   public String getFactoryDriverName() {
     return factoryDriver.getPluginName();
-  }
-
-  public Object getFactoryDriverSupport(String key) {
-    return factoryDriver.getSupportFeature(key);
   }
 
   public Object readData() {
@@ -106,12 +98,12 @@ public class SmartLogContext {
   }
 
   public void importTag(String rawTag) {
-    if ((boolean)getFactoryDriverSupport(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS)) selectSmartTag(rawTag);
+    if (factoryDriver.checkSetting(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS, true)) selectSmartTag(rawTag);
     else throw new IllegalAccessError("log driver: " + getFactoryDriverName() + " does not accept raw tag imports");
   }
 
   public void importTags(Collection<String> tags) {
-    if ((boolean) getFactoryDriverSupport(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS))
+    if (factoryDriver.checkSetting(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS, true))
       for (String rawTag: tags) {
         selectSmartTag(rawTag);
     } else

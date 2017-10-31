@@ -1,6 +1,6 @@
 package git.hsusa.core.io;
 
-import git.hsusa.core.Plugin;
+import git.hsusa.core.plugin.Plugin;
 
 /**
  * Created by triston on 10/28/17.

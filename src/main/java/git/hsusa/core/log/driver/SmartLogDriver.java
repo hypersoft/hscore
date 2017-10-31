@@ -2,7 +2,6 @@ package git.hsusa.core.log.driver;
 
 import java.util.Date;
 
-import git.hsusa.core.PluginActivation;
 import git.hsusa.core.io.IODriver;
 import git.hsusa.core.log.SmartLogContext;
 import git.hsusa.core.log.SmartLogItem;
@@ -11,7 +10,7 @@ import git.hsusa.core.log.SmartLogItem;
  * Created by triston on 10/29/17.
  */
 
-public abstract class SmartLogDriver extends IODriver<SmartLogContext, Boolean, SmartLogItem> implements PluginActivation<SmartLogContext> {
+public abstract class SmartLogDriver extends IODriver<SmartLogContext, Boolean, SmartLogItem>  {
 
   public static final String SERVICE_ONLINE = "service-online";
   public static final String AUTOMATIC_SERVICE_ACTIVATION = "automatic-driver-activation";
@@ -39,11 +38,6 @@ public abstract class SmartLogDriver extends IODriver<SmartLogContext, Boolean, 
     lastReadTime = new Date().getTime();
     Object value = dataReader.readData(runtime);
     return value;
-  }
-
-  @Override
-  public Object onPluginActivate(SmartLogContext oSmartLogContext) {
-    return oSmartLogContext;
   }
 
 }
