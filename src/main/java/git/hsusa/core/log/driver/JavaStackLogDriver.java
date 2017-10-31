@@ -16,7 +16,7 @@ public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoader<
 
   JavaStackLogDriver() {
 
-    setBooleanStatus(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION, true);
+    createSetting(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION, true, false);
 
     dataReader = new DataReader<SmartLogContext, Object>() {
       @Override
@@ -41,7 +41,7 @@ public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoader<
 
   @Override
   public void onLoadPlugin(SmartLogContext loadable) {
-    putSetting(SmartLogDriver.SERVICE_ONLINE, true);
+    createSetting(SmartLogDriver.SERVICE_ONLINE, true, false);
     logItems = new Stack<>();
 
   }

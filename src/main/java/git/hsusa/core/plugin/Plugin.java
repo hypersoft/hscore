@@ -23,9 +23,10 @@ import static java.lang.Class.forName;
 
     There is also a secure property sharing implementation, with simple set-it-and-go-configuration.
     You can keep your variables private by using the settings object directly. However, if you
-    call createSetting(NAME, VALUE), that setting will be registered in the known value types
-    registry, which will enable external access and type checking through get/put setting or
-    boolean configuration.
+    call createSetting(NAME, VALUE, WRITEABLE), that setting will be registered in the known value
+    types registry, which will enable external access and type checking through get/put setting or
+    boolean configuration. if the settings is not WRITEABLE, then external put is filtered for
+    the setting.
 
     private settings currently are; but should not be; exported in the serialization.
 
@@ -38,6 +39,7 @@ public class Plugin implements IPlugin, JSONString {
   protected Object pluginLoader = null;
   protected JSONObject settings = new JSONObject();
   private HashMap<String, Class> knownSettings = new HashMap<>();
+  private HashMap<String, Boolean> writableSettings = new HashMap<>();
 
   protected Plugin() {}
 
@@ -99,6 +101,7 @@ public class Plugin implements IPlugin, JSONString {
 
   final public void putSetting(String name, Object value) {
     boolean knownKey = knownSettings.containsKey(name);
+    if (knownKey && ! writableSettings.get(name)) return;
     if (knownKey && ! knownSettings.get(name).equals(value.getClass())) {
       throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
     }
@@ -138,9 +141,10 @@ public class Plugin implements IPlugin, JSONString {
   *  to the settings object, if you don't have a settings controller interface.
   *
   *
-  * */final protected boolean createSetting(String name, Object value) {
+  * */final protected boolean createSetting(String name, Object value, boolean writable) {
     if (knownSettings.containsKey(name)) settings.remove(name);
     knownSettings.put(name, value.getClass());
+    writableSettings.put(name, writable);
     settings.put(name, value);
     return true;
   }
