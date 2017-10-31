@@ -11,7 +11,7 @@ import git.hsusa.core.plugin.IPluginLoader;
  * Created by triston on 10/28/17.
  */
 
-public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoadable<SmartLogContext, Object> {
+public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoadable<Object, Object> {
 
   private Stack<SmartLogItem> logItems;
 
@@ -41,7 +41,7 @@ public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoadabl
   }
 
   @Override
-  public void onLoad(SmartLogContext oSmartLogContext, Object oO) {
+  public void onLoad(Object o1, Object oO) {
     createSetting(SmartLogDriver.SERVICE_ONLINE, true, false);
     logItems = new Stack<>();
   }
