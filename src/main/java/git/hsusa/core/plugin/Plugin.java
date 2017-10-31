@@ -24,7 +24,8 @@ import static java.lang.Class.forName;
     There is also a secure property sharing implementation, with simple set-it-and-go-configuration.
     You can keep your variables private by using the settings object directly. However, if you
     call createSetting(NAME, VALUE), that setting will be registered in the known value types
-    registry, which will enable external access through get/put setting or boolean configuration.
+    registry, which will enable external access and type checking through get/put setting or
+    boolean configuration.
 
     private settings currently are; but should not be; exported in the serialization.
 
