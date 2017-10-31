@@ -30,16 +30,21 @@ import static java.lang.Class.forName;
 
     private settings currently are; but should not be; exported in the serialization.
 
+
+    Roll your own interface. "I"-plugin-everything..
+
  */
 
 public class Plugin implements IPlugin, JSONString {
 
   static Logger logger = Logger.getLogger("Plugin");
 
-  protected Object pluginLoader = null;
-  protected JSONObject settings = new JSONObject();
+  private Object pluginLoader = null;
+  // internal settings
   private HashMap<String, Class> knownSettings = new HashMap<>();
   private HashMap<String, Boolean> writableSettings = new HashMap<>();
+  // plugin-settings
+  protected JSONObject settings = new JSONObject();
 
   protected Plugin() {}
 
@@ -51,7 +56,7 @@ public class Plugin implements IPlugin, JSONString {
     return create(className, null, null);
   }
 
-    public static Object create(String className, Object loader, Object bundle) {
+  public static Object create(String className, Object loader, Object bundle) {
     Class<? extends Plugin> plugin = null;
     try {
       plugin = (Class<? extends Plugin>)forName(className);
