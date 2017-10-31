@@ -2,6 +2,7 @@ package git.hsusa.core.plugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import git.hsusa.core.json.JSONObject;
@@ -20,6 +21,13 @@ import static java.lang.Class.forName;
     Features: Plugins and Plugin loaders with startup "bundles" and object forwarding,
     serializable settings, scriptable command interface, & property access controller.
 
+    There is also a secure property sharing implementation, with simple set-it-and-go-configuration.
+    You can keep your variables private by using the settings object directly. However, if you
+    call createSetting(NAME, VALUE), that setting will be registered in the known value types
+    registry, which will enable external access through get/put setting or boolean configuration.
+
+    private settings currently are; but should not be; exported in the serialization.
+
  */
 
 public class Plugin implements IPlugin, JSONString {
@@ -28,6 +36,7 @@ public class Plugin implements IPlugin, JSONString {
 
   protected Object pluginLoader = null;
   protected JSONObject settings = new JSONObject();
+  private HashMap<String, Class> knownSettings = new HashMap<>();
 
   protected Plugin() {}
 
@@ -88,27 +97,48 @@ public class Plugin implements IPlugin, JSONString {
   }
 
   final public void putSetting(String name, Object value) {
+    boolean knownKey = knownSettings.containsKey(name);
+    if (knownKey && ! knownSettings.get(name).equals(value.getClass())) {
+      throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
+    }
     if (this instanceof IPluginSettingsController)
       IPluginSettingsController.class.cast(this).onPutSetting(name, value);
-    else settings.put(name, value);
+    if (!knownKey) return;
+    settings.put(name, value);
   }
 
   final public Object getSetting(String name) {
-    if (this instanceof IPluginSettingsController)
-      return IPluginSettingsController.class.cast(this).onGetSetting(name);
-    else return settings.get(name);
+    if (this instanceof IPluginSettingsController) {
+      Object data = IPluginSettingsController.class.cast(this).onGetSetting(name);
+      if (data == null) return JSONObject.NULL;
+      return data;
+    }
+    if (!knownSettings.containsKey(name)) return JSONObject.NULL;
+    return settings.get(name);
   }
 
-  final public void enableSetting(String name) {
-    putSetting(name, true);
-  }
-
-  final public void disableSetting(String name) {
-    putSetting(name, false);
+  final public void setBooleanStatus(String name, boolean value) {
+    if (!knownSettings.containsKey(name)) return;
+    if (knownSettings.get(name).equals(Boolean.TYPE)) putSetting(name, value);
+    else throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
   }
 
   final public boolean checkSetting(String name, Object value) {
     return settings.has(name) && getSetting(name).equals(value);
+  }
+
+  /* use this function to setup your IPC
+  *
+  *  after you create a setting with this method, the get/set setting calls on the public
+  *  interface using the name supplied here will be forwarded
+  *  to the settings object, if you don't have a settings controller interface.
+  *
+  *
+  * */final protected boolean createSetting(String name, Object value) {
+    if (knownSettings.containsKey(name)) settings.remove(name);
+    knownSettings.put(name, value.getClass());
+    settings.put(name, value);
+    return true;
   }
 
   @Override
