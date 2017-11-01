@@ -33,10 +33,10 @@ public class SmartLogContext {
     setFactoryLogController(SmartLog.platformLogController);
   }
 
-  public boolean setFactoryLogController(SmartLogDriver oFactoryDriver) {
+  public boolean setFactoryLogController(SmartLogDriver oFactoryController) {
     if (smartTags.size() > 1) throw
-      new IllegalAccessError("cannot set factory driver after context logging has commenced");
-    factoryLogController = oFactoryDriver;
+      new IllegalAccessError("cannot set factory controller after context logging has commenced");
+    factoryLogController = oFactoryController;
     return true;
   }
 
