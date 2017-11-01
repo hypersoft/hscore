@@ -103,7 +103,11 @@ public class Plugin implements IPlugin, JSONString {
     if (!settingIsKnown(name)) return;
     if (!knownSettingIsWritable(name)) return;
     if (!knownSettingIsTypeOf(name, value)) {
-      throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
+      throw new ClassCastException(
+        "wrong value type for this setting: "+getPluginName()+": "+name
+        +" new value is type: "+value.getClass().getName()
+          +"; but the setting is reserved for type: "+knownSettings.get(name).getName()
+      );
     }
     settings.put(name, value);
   }
@@ -178,13 +182,10 @@ public class Plugin implements IPlugin, JSONString {
         try {out.putOnce(item, ((IPluginSerializationFilter)this).onPluginSerialize(item));}
           catch (Exception fault) {
           logger.info(
-
             IPluginSerializationFilter.class.getName()
-
-              +": plugin serialization failure in "+getPluginName()
-              +": "+item+"; reason: "+fault.getClass().getName()
-              +"; message: "+fault.getMessage()
-
+              // don't be smart as hell, for nothing...
+              +": plugin serialization failure in "+getPluginName()+": "+item
+              +"; reason: "+fault.getClass().getName() +"; message: "+fault.getMessage()
           );
         }
       }

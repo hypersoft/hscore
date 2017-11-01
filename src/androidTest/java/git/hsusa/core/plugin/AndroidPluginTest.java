@@ -41,7 +41,7 @@ public class AndroidPluginTest {
   }
 
   @Test
-  public void toJSONString1() throws Exception {
+  public void toJSONStringInt() throws Exception {
 
   }
 
