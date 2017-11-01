@@ -4,8 +4,8 @@
 
     open-reference-code-base
 
-    user, developer, and coder, assume any assumption of risk for the usage of the
-    software. Core technology contributary attributions welcome.
+    user, developer, and coder, assume the benefits with the risks for the
+    usage of the software. Core technology contributary attributions welcome.
 
     Quote: "parts of this software brought to you by courtesy of the Hypersoft-Systems: U.-S.-A."
 
