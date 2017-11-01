@@ -101,8 +101,8 @@ public class Plugin implements IPlugin, JSONString {
       return;
     }
     if (!settingIsKnown(name)) return;
-    if (knownSettingIsWritable(name)) return;
-    if (!knownSettingIsTypeOf(name, value.getClass())) {
+    if (!knownSettingIsWritable(name)) return;
+    if (!knownSettingIsTypeOf(name, value)) {
       throw new ClassCastException("wrong value type for this setting: "+getPluginName()+": "+name);
     }
     settings.put(name, value);
