@@ -1,5 +1,7 @@
 **ANDROID STUDIO MODULE: HSCORE**
 
+"everything should be as simple as it can be but not simpler." -- A.-E.
+
 `License`
 
     open-reference-code-base
