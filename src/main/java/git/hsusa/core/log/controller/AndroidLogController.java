@@ -22,6 +22,13 @@ import git.hsusa.core.log.SmartLogItem.MessageType;
 
 public class AndroidLogController extends SmartLogDriver {
 
+  /*
+  *
+  * Simple coding logic: a driver, does not add features to a controller, but a controller, adds
+  * features to a driver.
+  *
+  * */
+
   // http://www.java2s.com/Tutorial/Java/0040__Data-Type/SimpleDateFormat.htm
   private static final String ANDROID_LOG_TIME_FORMAT = "MM-dd kk:mm:ss.SSS";
   private static SimpleDateFormat logCatDate = new SimpleDateFormat(ANDROID_LOG_TIME_FORMAT);
