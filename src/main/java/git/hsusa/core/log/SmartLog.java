@@ -9,9 +9,9 @@ import git.hsusa.core.log.controller.AndroidLogController;
 public class SmartLog {
 
   // change this to your default behavior
-  static final SmartLogDriver platformDriver = new AndroidLogController();
+  static final SmartLogDriver platformLogController = new AndroidLogController();
 
-  //static final SmartLogDriver platformDriver = (SmartLogDriver)Plugin.create(JavaStackLogDriver.class);
+  //static final SmartLogDriver platformLogController = (SmartLogDriver)Plugin.create(JavaStackLogDriver.class);
 
   static java.util.HashMap<String, SmartLogContext> contextHashMap = new java.util.HashMap<>();
 

@@ -11,7 +11,7 @@ import git.hsusa.core.log.SmartLogItem.MessageType;
  */
 public class SmartLogContext {
 
-  SmartLogDriver factoryDriver = SmartLog.platformDriver;
+  SmartLogDriver factoryLogController = SmartLog.platformLogController;
 
   final long creationTime = new Date().getTime();
 
@@ -30,22 +30,22 @@ public class SmartLogContext {
   SmartLogContext(String oMasterKey) {
     this.masterKey = oMasterKey;
     SmartLog.contextHashMap.put(oMasterKey, this);
-    setFactoryDriver(SmartLog.platformDriver);
+    setFactoryLogController(SmartLog.platformLogController);
   }
 
-  public boolean setFactoryDriver(SmartLogDriver oFactoryDriver) {
+  public boolean setFactoryLogController(SmartLogDriver oFactoryDriver) {
     if (smartTags.size() > 1) throw
       new IllegalAccessError("cannot set factory driver after context logging has commenced");
-    factoryDriver = oFactoryDriver;
+    factoryLogController = oFactoryDriver;
     return true;
   }
 
-  public String getFactoryDriverName() {
-    return factoryDriver.getPluginName();
+  public String getFactoryLogControllerName() {
+    return factoryLogController.getPluginName();
   }
 
   public Object readData() {
-    return factoryDriver.readData(this);
+    return factoryLogController.readData(this);
   }
 
   public SmartLogItem logCriticalMessage(String byName, String message) {
@@ -97,16 +97,16 @@ public class SmartLogContext {
   }
 
   public void importTag(String rawTag) {
-    if (factoryDriver.checkSetting(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS, true)) selectSmartTag(rawTag);
-    else throw new IllegalAccessError("log driver: " + getFactoryDriverName() + " does not accept raw tag imports");
+    if (factoryLogController.checkSetting(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS, true)) selectSmartTag(rawTag);
+    else throw new IllegalAccessError("log driver: " + getFactoryLogControllerName() + " does not accept raw tag imports");
   }
 
   public void importTags(Collection<String> tags) {
-    if (factoryDriver.checkSetting(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS, true))
+    if (factoryLogController.checkSetting(SmartLogDriver.IMPORTS_FOREIGN_SMART_TAGS, true))
       for (String rawTag: tags) {
         selectSmartTag(rawTag);
     } else
-      throw new IllegalAccessError("log driver: " + getFactoryDriverName() + " does not accept raw tag imports");
+      throw new IllegalAccessError("log driver: " + getFactoryLogControllerName() + " does not accept raw tag imports");
   }
 
   String getSmartTagFor(SmartLogItem oSmartLogItem) {

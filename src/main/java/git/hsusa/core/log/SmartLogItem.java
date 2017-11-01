@@ -37,7 +37,7 @@ public class SmartLogItem {
     componentName = oComponentName;
     smartLogContext = oSmartLogContext;
 
-    smartLogContext.factoryDriver.writeData(smartLogContext, this);
+    smartLogContext.factoryLogController.writeData(smartLogContext, this);
 
   }
 
