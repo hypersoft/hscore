@@ -77,11 +77,7 @@ public class Plugin implements IPlugin, JSONString {
       pluginInstance.pluginLoader = loader;
 
       // load the plugin
-      if (pluginInstance instanceof IPluginLoadable)
-        IPluginLoadable.class.cast(pluginInstance)
-          .onLoad(loader, bundle);
-        // load the plugin
-      else if (pluginInstance instanceof IPluginLoadableVoid)
+      if (pluginInstance instanceof IPluginLoadableVoid)
         IPluginLoadableVoid.class.cast(pluginInstance)
           .onLoad();
         // load the plugin
