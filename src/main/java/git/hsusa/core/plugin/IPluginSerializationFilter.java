@@ -6,6 +6,9 @@ import git.hsusa.core.json.JSONObject;
  * Created by triston on 10/31/17.
  */
 
+/**
+ * IKnowPackageComposition
+ */
 public interface IPluginSerializationFilter {
   /**
   * @param name the name of the setting to compose
