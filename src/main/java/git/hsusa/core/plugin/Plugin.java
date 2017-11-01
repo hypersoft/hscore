@@ -17,7 +17,7 @@ import static java.lang.Class.forName;
 
 
 /*
-    A bare-bones-extensible-plugin-system.
+    A bare-bones-extensible-out-of-the-box-environmental-plugin-system.
 
     Features: Plugins and Plugin loaders with startup "bundles" and object forwarding,
     serializable settings, scriptable command interface, & property access controller.
