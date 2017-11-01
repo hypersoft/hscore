@@ -1,4 +1,4 @@
-package git.hsusa.core.log.driver;
+package git.hsusa.core.log.controller;
 
 import android.util.Log;
 
@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Logger;
 
 import git.hsusa.core.log.SmartLogContext;
+import git.hsusa.core.log.SmartLogDriver;
 import git.hsusa.core.log.SmartLogItem;
 import git.hsusa.core.log.SmartLogItem.MessageType;
 
@@ -20,13 +20,13 @@ import git.hsusa.core.log.SmartLogItem.MessageType;
  * Created by triston on 10/28/17.
  */
 
-public class AndroidLogDriver extends SmartLogDriver {
+public class AndroidLogController extends SmartLogDriver {
 
   // http://www.java2s.com/Tutorial/Java/0040__Data-Type/SimpleDateFormat.htm
   private static final String ANDROID_LOG_TIME_FORMAT = "MM-dd kk:mm:ss.SSS";
   private static SimpleDateFormat logCatDate = new SimpleDateFormat(ANDROID_LOG_TIME_FORMAT);
 
-  public AndroidLogDriver() {
+  public AndroidLogController() {
 
     createSetting(IMPORTS_FOREIGN_SMART_TAGS, true, false); // value: true, readable = (create for publish),
     // but not writable[cause:= 'false']

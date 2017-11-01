@@ -1,4 +1,4 @@
-package git.hsusa.core.log.driver;
+package git.hsusa.core.log;
 
 import java.util.Date;
 

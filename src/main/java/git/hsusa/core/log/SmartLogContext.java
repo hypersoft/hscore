@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Stack;
 
 import git.hsusa.core.log.SmartLogItem.MessageType;
-import git.hsusa.core.log.driver.SmartLogDriver;
 
 /**
  * Created by triston on 10/29/17.

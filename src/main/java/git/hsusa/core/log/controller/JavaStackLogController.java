@@ -1,22 +1,21 @@
-package git.hsusa.core.log.driver;
+package git.hsusa.core.log.controller;
 
 import java.util.Stack;
 
 import git.hsusa.core.log.SmartLogContext;
+import git.hsusa.core.log.SmartLogDriver;
 import git.hsusa.core.log.SmartLogItem;
-import git.hsusa.core.plugin.IPluginLoadable;
 import git.hsusa.core.plugin.IPluginLoadableVoid;
-import git.hsusa.core.plugin.IPluginLoader;
 
 /**
  * Created by triston on 10/28/17.
  */
 
-public class JavaStackLogDriver extends SmartLogDriver implements IPluginLoadableVoid {
+public class JavaStackLogController extends SmartLogDriver implements IPluginLoadableVoid {
 
   private Stack<SmartLogItem> logItems;
 
-  JavaStackLogDriver() {
+  JavaStackLogController() {
 
     createSetting(SmartLogDriver.AUTOMATIC_SERVICE_ACTIVATION, true, false);
 
