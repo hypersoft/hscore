@@ -25,8 +25,8 @@ import static java.lang.Class.forName;
     There is also a secure property sharing implementation, with simple set-it-and-go-configuration.
     You can keep your variables private by using the settings object directly. However, if you
     call createSetting(NAME, VALUE, WRITABLE), that setting will be registered in the known value
-    types registry, which will enable external access and type checking through get/put setting or
-    boolean configuration. if the setting is not WRITABLE == TRUE, then external put is filtered for
+    types registry, which will enable external access and type checking through get/put setting.
+    if the WRITABLE setting is not WRITABLE == TRUE, then external put is filtered for
     the setting.
 
     private settings are not exported in the standard serialization.
@@ -53,65 +53,48 @@ public class Plugin implements IPlugin, JSONString {
 
   final public static Object create(String className, Object loader, Object bundle) {
     Class<? extends Plugin> plugin = null;
-    try {
-      plugin = (Class<? extends Plugin>)forName(className);
-    } catch (ClassNotFoundException oE) {
-      oE.printStackTrace();
-    }
+    try {plugin = (Class<? extends Plugin>)forName(className);}
+      catch (ClassNotFoundException oE) {oE.printStackTrace();}
     return create(plugin, loader, bundle);
   }
 
   final public static Object create(Class<? extends Plugin> plugin, Object loader, Object bundle) {
-
     Plugin pluginInstance = null;
     if (plugin.getEnclosingClass() != null && ! Modifier.isStatic(plugin.getModifiers())) {
       logger.severe(plugin.getName() + " is a nested class and must be declared static to resolve it's own-plugin-constructor");
     }
-
-    try {
-
-      // Get constructor
+    try { // Get constructor
       Constructor build = plugin.getDeclaredConstructor();
       build.setAccessible(true);
       pluginInstance = (Plugin) build.newInstance();
       pluginInstance.pluginLoader = loader;
-
       // load the plugin
       if (pluginInstance instanceof IPluginLoadableVoid)
-        IPluginLoadableVoid.class.cast(pluginInstance)
-          .onLoad();
-        // load the plugin
+        IPluginLoadableVoid.class.cast(pluginInstance).onLoad();
+           // load the plugin
       else if (pluginInstance instanceof IPluginLoadableBundle)
-        IPluginLoadableBundle.class.cast(pluginInstance)
-          .onLoad(bundle);
-        // load the plugin
+        IPluginLoadableBundle.class.cast(pluginInstance).onLoad(bundle);
+           // load the plugin
       else if (pluginInstance instanceof IPluginLoadableAny)
-        IPluginLoadableAny.class.cast(pluginInstance)
-          .onLoad(bundle);
-
-      // notify the loader with any forwarding
+        IPluginLoadableAny.class.cast(pluginInstance).onLoad(bundle);
+      //------------------ notify the loader with any forwarding
       if (loader instanceof IPluginLoader) {
         IPluginLoader.class.cast(loader).onLoadPlugin(pluginInstance);
       }
-
-    } catch (Exception oE) {
-      oE.printStackTrace();
-    }
-
+    } catch (Exception oE) {oE.printStackTrace();}
     return pluginInstance;
-
   }
 
+  @Override
   public Set<String> getSettingNames() {return knownSettings.keySet();}
 
   @Override
   final public Object getPluginLoader(){return pluginLoader;}
 
   @Override
-  final public String getPluginName() {
-    return getClass().getName();
-  }
+  final public String getPluginName() {return getClass().getName();}
 
+  @Override
   final public void putSetting(String name, Object value) {
     if (this instanceof IPluginSettingsController) {
       IPluginSettingsController.class.cast(this).onPutSetting(name, value);
@@ -125,6 +108,7 @@ public class Plugin implements IPlugin, JSONString {
     settings.put(name, value);
   }
 
+  @Override
   final public Object getSetting(String name) {
     if (this instanceof IPluginSettingsController) {
       Object data = IPluginSettingsController.class.cast(this).onGetSetting(name);
@@ -136,27 +120,20 @@ public class Plugin implements IPlugin, JSONString {
   }
 
   protected void protectSetting(String name) {
-    knownSettings.remove(name);
-    writableSettings.remove(name);
+    knownSettings.remove(name); writableSettings.remove(name);
   }
 
   protected void publishSetting(String name, Class value, boolean writable) {
-    knownSettings.put(name, value);
-    writableSettings.put(name, writable);
+    knownSettings.put(name, value); writableSettings.put(name, writable);
   }
 
   protected boolean settingIsProtected(String name) {
-    if (settingIsKnown(name)) return false;
-    return settings.has(name);
+    if (settingIsKnown(name)) return false; return settings.has(name);
   }
 
-  protected boolean settingIsKnown(String name) {
-    return knownSettings.containsKey(name);
-  }
+  protected boolean settingIsKnown(String name) {return knownSettings.containsKey(name);}
 
-  protected boolean knownSettingIsWritable(String name) {
-    return writableSettings.get(name);
-  }
+  protected boolean knownSettingIsWritable(String name) {return writableSettings.get(name);}
 
   protected  boolean knownSettingIsTypeOf(String name, Object value) {
     if (value == null) return false;
@@ -196,33 +173,24 @@ public class Plugin implements IPlugin, JSONString {
   {
     Set<String> names = getSettingNames();
     JSONObject out = new JSONObject(names.size());
-
     if (this instanceof IPluginSerializationFilter) {
       for (String item : names) {
-        try {
-          out.putOnce(item, ((IPluginSerializationFilter)this).onPluginSerialize(item));
-        } catch (Exception ignore) {
+        try {out.putOnce(item, ((IPluginSerializationFilter)this).onPluginSerialize(item));}
+          catch (Exception fault) {
           logger.info(
 
             IPluginSerializationFilter.class.getName()
 
               +": plugin serialization failure in "+getPluginName()
-              +": "+item+"; reason: "+ignore.getClass().getName()
-              +"; message: "+ignore.getMessage()
+              +": "+item+"; reason: "+fault.getClass().getName()
+              +"; message: "+fault.getMessage()
 
           );
-          //ignore.printStackTrace();
         }
       }
     }
-
-    else for (String item : names) {
-      try {
-        out.putOnce(item, settings.opt(item));
-      } catch (Exception ignore) {}
-    }
-
+    else for (String item : names) try {out.putOnce(item, settings.opt(item));}
+      catch (Exception ignore) {}
     return out.toString(depth);
   }
-
 }
