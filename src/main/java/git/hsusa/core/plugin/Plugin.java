@@ -105,7 +105,7 @@ public class Plugin implements IPlugin, JSONString {
     if (!knownSettingIsTypeOf(name, value)) {
       throw new ClassCastException(
         "wrong value type for this setting: "+getPluginName()+": "+name
-        +" new value is type: "+value.getClass().getName()
+        +"; new value is type: "+value.getClass().getName()
           +"; but the setting is reserved for type: "+knownSettings.get(name).getName()
       );
     }
