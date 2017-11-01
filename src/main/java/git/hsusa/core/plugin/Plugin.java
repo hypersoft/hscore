@@ -31,7 +31,7 @@ import static java.lang.Class.forName;
 
     private settings are not exported in the standard serialization.
 
-    Roll your own interface. "I"-plugin-everything..
+    Roll your own interface. "I"-plugin-everything...
 
  */
 
