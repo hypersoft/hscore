@@ -51,7 +51,7 @@ public class Plugin implements IPlugin, JSONString {
   public static Object create(Class<? extends Plugin> plugin) {return create(plugin, null, null);}
   public static Object create(String className) {return create(className, null, null);}
 
-  public static Object create(String className, Object loader, Object bundle) {
+  final public static Object create(String className, Object loader, Object bundle) {
     Class<? extends Plugin> plugin = null;
     try {
       plugin = (Class<? extends Plugin>)forName(className);
@@ -61,7 +61,7 @@ public class Plugin implements IPlugin, JSONString {
     return create(plugin, loader, bundle);
   }
 
-  public static Object create(Class<? extends Plugin> plugin, Object loader, Object bundle) {
+  final public static Object create(Class<? extends Plugin> plugin, Object loader, Object bundle) {
 
     Plugin pluginInstance = null;
     if (plugin.getEnclosingClass() != null && ! Modifier.isStatic(plugin.getModifiers())) {
