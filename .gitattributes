@@ -1,0 +1,5 @@
+.gitattributes export-ignore
+.gitignore export-ignore
+
+src/androidTest export-ignore
+src/test export-ignore
