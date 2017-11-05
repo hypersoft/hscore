@@ -48,6 +48,10 @@ public class SmartLogContext {
     return factoryLogController.readData(this);
   }
 
+  public void resetDriver() {
+    factoryLogController.resetLogTimes();
+  }
+
   public SmartLogItem logCriticalMessage(String byName, String message) {
     return new SmartLogItem(this, byName, MessageType.CRITICAL, message, null);
   }

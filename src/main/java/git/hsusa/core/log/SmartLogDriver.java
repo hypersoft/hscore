@@ -26,6 +26,11 @@ public abstract class SmartLogDriver extends IODriver<SmartLogContext, Boolean, 
     return lastReadTime;
   }
 
+  public void resetLogTimes() {
+    lastWriteTime = 0;
+    lastReadTime = 0;
+  }
+
   @Override
   public Boolean writeData(SmartLogContext runtime, SmartLogItem output) {
     Boolean status = dataWriter.writeData(runtime, output);
