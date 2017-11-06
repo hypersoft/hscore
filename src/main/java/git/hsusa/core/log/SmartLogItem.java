@@ -39,6 +39,8 @@ public class SmartLogItem {
 
     smartLogContext.factoryLogController.writeData(smartLogContext, this);
 
+    oSmartLogContext.claimSmartTag(oComponentName);
+
   }
 
   /*
