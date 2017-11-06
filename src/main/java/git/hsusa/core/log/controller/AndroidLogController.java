@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -100,9 +101,19 @@ public class AndroidLogController extends SmartLogDriver {
 
       Stack<String> input = new Stack<>();
 
+      if (oLogTime > 0) {
+        // Synchronize with "NO YEAR CLOCK" @ unix epoch-year: 1970
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(oLogTime));
+        calendar.set(Calendar.YEAR, 1970);
+        Date calDate = calendar.getTime();
+        oLogTime = calDate.getTime();
+      }
+
       String line = "";
       while ((line = bufferedReader.readLine()) != null) {
-        if (logCatDate.parse(line).getTime() > oLogTime) {
+        long when = logCatDate.parse(line).getTime();
+        if (when > oLogTime) {
           input.push(line);
           break; // stop checking for date matching
         }
