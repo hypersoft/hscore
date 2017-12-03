@@ -1,12 +1,6 @@
 package git.hsusa.core.io;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,34 +15,49 @@ public class Commander {
 
     Object source;
     Object destination;
+    String encoding;
 
-    StreamHandler(Object source, Object oDestination) {
+    StreamHandler(Object source, Object oDestination, String sEncoding) {
       this.source = source; this.destination = oDestination;
+      encoding = sEncoding;
     }
 
     public void run() {
       if (source instanceof InputStream) {
-        BufferedReader br = new BufferedReader(new InputStreamReader((InputStream) source));
         String line;
+        BufferedReader br = null;
         try {
-          while ((line = br.readLine()) != null) ((StringBuilder) destination).append(line + '\n');
-        } catch (IOException oE) {
+          br = new BufferedReader(new InputStreamReader((InputStream) source, encoding));
+          while ((line = br.readLine()) != null) ((StringBuilder)
+            destination).append(line + System.lineSeparator());
+        } catch (IOException oE) {}
+        finally {
+          if (br != null) try {
+            br.close();
+          } catch (IOException e) {}
         }
       } else {
-        PrintWriter pw = new PrintWriter((OutputStream)destination);
-        pw.print((String)source);
-        pw.flush(); pw.close();
+        PrintWriter pw = null;
+        try {
+          pw = new PrintWriter(
+            new OutputStreamWriter((OutputStream) destination, encoding));
+          pw.print((String) source);
+          pw.flush();
+        } catch (IOException e) {}
+        finally {
+          if (pw != null) pw.close();
+        }
       }
     }
 
-    public static Thread read(InputStream source, StringBuilder dest) {
-      Thread thread = new Thread(new StreamHandler(source, dest));
+    public static Thread read(InputStream source, StringBuilder dest, String encoding) {
+      Thread thread = new Thread(new StreamHandler(source, dest, encoding));
       (thread).start();
       return thread;
     }
 
-    public static Thread write(String source, OutputStream dest) {
-      Thread thread = new Thread(new StreamHandler(source, dest));
+    public static Thread write(String source, OutputStream dest, String encoding) {
+      Thread thread = new Thread(new StreamHandler(source, dest, encoding));
       (thread).start();
       return thread;
     }
@@ -119,13 +128,13 @@ public class Commander {
       process = processBuilder.start();
 
       // start the error reader
-      Thread errorBranch = StreamHandler.read(process.getErrorStream(), error);
+      Thread errorBranch = StreamHandler.read(process.getErrorStream(), error, null);
 
       // start the output reader
-      Thread outputBranch = StreamHandler.read(process.getInputStream(), output);
+      Thread outputBranch = StreamHandler.read(process.getInputStream(), output, null);
 
       // start the input
-      Thread inputBranch = StreamHandler.write(input, process.getOutputStream());
+      Thread inputBranch = StreamHandler.write(input, process.getOutputStream(), null);
 
       int rValue = 254;
       try {
